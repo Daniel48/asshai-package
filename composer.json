@@ -1,0 +1,19 @@
+{
+    "name": "firstparcial/asshai",
+    "description": "Esto es una prueba para mi primer parcial",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Mendoza",
+            "email": "D-m-7-17@hotmail.es"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Firstparcial\\Asshai\\": "src/"
+        }
+    }
+}
