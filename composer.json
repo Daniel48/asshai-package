@@ -19,7 +19,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Firstparcial\\Asshai\\AsshaiServiceProvider"
+                "Firstparcial\\Asshai\\AsshaiServiceProvider"  
             ]
             
         }
