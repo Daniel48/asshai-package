@@ -15,5 +15,13 @@
         "psr-4": {
             "Firstparcial\\Asshai\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Firstparcial\\Asshai\\AsshaiServiceProvider"
+            ]
+            
+        }
     }
 }
