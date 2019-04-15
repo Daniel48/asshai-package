@@ -15,8 +15,10 @@ class AsshaiServiceProvider extends ServiceProvider
             __DIR__ . '/config/asshai.php',
             'asshai'
         );
+       
         $this->publishes([
-            __DIR__.'/config/asshai.php' => config_path('asshai.php')
+            __DIR__.'/config/asshai.php' => config_path('asshai.php'),
+            __DIR__.'/views' => resource_path('views/vendor/asshai')
         ]);
     }
     public function register()
