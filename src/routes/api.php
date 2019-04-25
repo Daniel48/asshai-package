@@ -1,8 +1,23 @@
 <?php
-/* Route::get('/{path}',function(){
-    return view('/asshai');
-})->where('path','.*'); */
-Route::group(['namespace' => 'Firstparcial\Asshai\Http\Controllers'], function () {
+
+use Illuminate\Http\Request;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
+|
+*/
+
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+/* Route::group(['namespace' => 'Firstparcial\Asshai\Http\Controllers'], function () {
 
     Route::get('asshai', 'AsshaiController@index')->name('asshai');
     Route::post('asshai', 'AsshaiController@send');
@@ -19,3 +34,4 @@ Route::group(['namespace' => 'Firstparcial\Asshai\Http\Controllers'], function (
     Route::delete('asshai/users/delete/{id}','UsuarioController@destroy');
 
 });
+ */

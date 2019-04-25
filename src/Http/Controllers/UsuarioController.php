@@ -15,9 +15,11 @@ class UsuarioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $response = Usuario::all();
-        return $response;
+    {   
+        $result = Usuario::paginate(2);
+        return $result;
+        /* return view('asshai::auth.login'); */     
+   
     }
 
     /**
@@ -38,7 +40,16 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->user_dir);
+        
+        $user = new Usuario();
+        $user->nombre = $request->user_nom;
+        $user->direccion = $request->user_dir;
+        $user->email = $request->user_email;
+        $user->telefono = $request->user_tel;
+        $user->username = $request->user_username;
+        $user->password = $request->user_password; 
+        $user->save();
     }
 
     /**
@@ -60,7 +71,8 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = Usuario::find($id);
+        return $user;
     }
 
     /**
@@ -72,7 +84,13 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = Usuario::find($id);
+        $user->nombre = $request->user_nom;
+        $user->direccion = $request->user_dir;
+        $user->email = $request->user_email;
+        $user->telefono = $request->user_tel;
+        $user->username = $request->user_username; 
+        $user->save();
     }
 
     /**
@@ -83,6 +101,7 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = Usuario::find($id);
+        $user->delete();
     }
 }

@@ -14,3 +14,4 @@ require('./bootstrap');
  */
 
 require('./components/Index');
+require('./components/componentAuth/Login');
