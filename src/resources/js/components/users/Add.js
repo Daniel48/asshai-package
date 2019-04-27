@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import SuccessAlert from './SuccessAlert';
+import ErrorAlert from './ErrorAlert';
+
 export default class Add extends Component {
     constructor(){
         super();
@@ -18,7 +21,8 @@ export default class Add extends Component {
             user_email:'',
             user_tel:'',
             user_username:'',
-            user_password:''
+            user_password:'',
+            alert_message :''
         };
     }
     onChangeUserName(e){
@@ -63,13 +67,22 @@ export default class Add extends Component {
             user_username : this.state.user_username,
             user_password : this.state.user_password
         }
-        axios.post('http://127.0.0.1:8000/asshai/users/store',user)
-        .then(res => console.log(res.data+ "ESTAMOS AQUI"));
+        axios.post('http://127.0.0.1:8000/api/users/store',user)
+        .then(res =>{
+            this.setState({alert_message:"success"});
+        }).catch(error =>{
+            this.setState({alert_message:"error"});
+        });
     }
 
     render() {
         return (
             <div>
+                <hr/>
+                {this.state.alert_message=="success"?<SuccessAlert/>:null}
+                {this.state.alert_message=="error"?<ErrorAlert/>:null}
+
+
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label htmlFor="user_nom">Nombre</label>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import SuccessAlert from './SuccessAlert';
+import ErrorAlert from './ErrorAlert';
 
 var isMounted = false;
 export default class Edit extends Component {
@@ -18,13 +20,14 @@ export default class Edit extends Component {
             user_dir:'',
             user_email:'',
             user_tel:'',
-            user_username:''
+            user_username:'',
+            alert_message :''
             //user_password:''
         };
     }
     componentDidMount(){
         isMounted = true;
-        axios.get('http://127.0.0.1:8000/asshai/users/edit/'+this.props.match.params.id)
+        axios.get('http://127.0.0.1:8000/api/users/edit/'+this.props.match.params.id)
         .then(response =>{
             if(isMounted){
                 this.setState(
@@ -75,12 +78,21 @@ export default class Edit extends Component {
             user_tel : this.state.user_tel,
             user_username : this.state.user_username
         }
-        axios.put('http://127.0.0.1:8000/asshai/users/update/'+this.props.match.params.id,user)
-        .then(res => console.log(res.data+ "ESTAMOS AQUI"));
+        axios.put('http://127.0.0.1:8000/api/users/update/'+this.props.match.params.id,user)
+        .then(res =>{
+            this.setState({alert_message:"success"});
+        }).catch(error =>{
+            this.setState({alert_message:"error"});
+        });
     }
     render() {
         return (
             <div>
+                <hr/>
+                {this.state.alert_message=="success"?<SuccessAlert/>:null}
+                {this.state.alert_message=="error"?<ErrorAlert/>:null}
+
+
             <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                     <label htmlFor="user_nom">Nombre</label>

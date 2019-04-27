@@ -12,6 +12,7 @@ class HomeController extends Controller
 {
     public function index()
     {   
+        dd("LARAVEL");
         return view('asshai::welcome');
     }
   

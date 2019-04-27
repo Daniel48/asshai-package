@@ -22,6 +22,15 @@ class UsuarioController extends Controller
    
     }
 
+    public function test()
+    {   
+        dd("ESTO ES TEST");
+        $result = Usuario::all();
+        return response().json($result);
+         //return view('asshai::welcome');     
+   
+    }
+
     /**
      * Show the form for creating a new resource.
      *

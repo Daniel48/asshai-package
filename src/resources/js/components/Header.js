@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
+import {Link, Route} from 'react-router-dom';
 import Home from './Home';
 import About from './About';
 import Users from './users/Index';
@@ -7,7 +7,6 @@ import Users from './users/Index';
 export default class Header extends Component {
     render() {
         return (
-            <Router>
                 <div>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +16,7 @@ export default class Header extends Component {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                     <li className="nav-item active">
-                        <Link className="nav-link" to="/asshai">Home </Link>
+                        <Link className="nav-link" to="/asshai/index">Home </Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/asshai/about">About Us</Link>
@@ -33,11 +32,12 @@ export default class Header extends Component {
                 </div>
                 </nav>
                     
-                    <Route exact path='/asshai/' component={Home}/>
+                    <Route exact path='/asshai/index' component={Home}/>
                     <Route exact path='/asshai/about' component={About}/>
                     <Route exact path='/asshai/users' component={Users}/>
+                    <Route exact path="/asshai/users/add" component={Users}/>
+                    <Route exact path="/asshai/users/edit/:id" component={Users}/>
                     </div>
-            </Router>
         );
     }
 }

@@ -1,8 +1,18 @@
 <?php
-/* Route::get('/{path}',function(){
-    return view('/asshai');
+
+/* Route::get('/asshai/{path}',function(){
+            
+    return view('asshai::welcome');
+        
 })->where('path','.*'); */
-Route::group(['namespace' => 'Firstparcial\Asshai\Http\Controllers'], function () {
+
+Route::get('/asshai/{path}',function(){
+    return view('asshai::welcome');
+})->where('path','.*');
+
+
+/* Route::group(['namespace' => 'Firstparcial\Asshai\Http\Controllers'], function () {
+    
 
     Route::get('asshai', 'AsshaiController@index')->name('asshai');
     Route::post('asshai', 'AsshaiController@send');
@@ -11,7 +21,10 @@ Route::group(['namespace' => 'Firstparcial\Asshai\Http\Controllers'], function (
 
 
     //:::::::USUARIO CONTROLLER::::://
-    Route::get('login','UsuarioController@index');
+    Route::get('loginu','UsuarioController@index');
+    
+    
+
     Route::get('asshai/users','UsuarioController@index');
     Route::post('asshai/users/store','UsuarioController@store');
     Route::get('asshai/users/edit/{id}','UsuarioController@edit');
@@ -19,3 +32,4 @@ Route::group(['namespace' => 'Firstparcial\Asshai\Http\Controllers'], function (
     Route::delete('asshai/users/delete/{id}','UsuarioController@destroy');
 
 });
+ */

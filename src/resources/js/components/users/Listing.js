@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import Pagination from "react-js-pagination";
+import SuccessAlert from './SuccessAlert';
+import ErrorAlert from './ErrorAlert';
 
 var isMounted = false;
 export default class Listing extends Component {
@@ -13,7 +15,8 @@ export default class Listing extends Component {
             activePage:1,
             itemsCountPerPage:1,
             totalItemsCount:1,
-            pageRangeDisplayed:1
+            pageRangeDisplayed:1,
+            alert_message :''
         };
         this.handlePageChange=this.handlePageChange.bind(this);
     }
@@ -21,7 +24,7 @@ export default class Listing extends Component {
     componentDidMount(){
         isMounted = true;
         
-        axios.get('http://127.0.0.1:8000/asshai/users')
+        axios.get('http://127.0.0.1:8000/api/users')
         .then(response =>{
             if(isMounted){
                 console.log(response.data.data);
@@ -42,7 +45,7 @@ export default class Listing extends Component {
 
     onDelete(id){
         console.log(JSON.stringify(id+"AFUERA"));
-         axios.delete('http://127.0.0.1:8000/asshai/users/delete/'+id)
+         axios.delete('http://127.0.0.1:8000/api/users/delete/'+id)
         .then(response =>{
             var users1 = this.state.users;
             console.log("HOLA DESDE AQUI");
@@ -54,14 +57,17 @@ export default class Listing extends Component {
                       }
                 }
             }
-        });  
+                this.setState({alert_message:"success"});
+            }).catch(error =>{
+                this.setState({alert_message:"error"});
+            }); 
         console.log(this.state.users);   
     }
     handlePageChange(pageNumber) {
         console.log(`active page is ${pageNumber}`);
         this.setState({activePage: pageNumber});
         //"http://127.0.0.1:8000/asshai/users?page=1
-        axios.get('http://127.0.0.1:8000/asshai/users?page='+pageNumber)
+        axios.get('http://127.0.0.1:8000/api/users?page='+pageNumber)
         .then(response =>{
             if(isMounted){
                 console.log(response.data.data);
@@ -80,6 +86,10 @@ export default class Listing extends Component {
     render() {
         return (
             <div> 
+                <hr/>
+                {this.state.alert_message=="success"?<SuccessAlert/>:null}
+                {this.state.alert_message=="error"?<ErrorAlert/>:null}
+
                 <table className="table">
                     <thead>
                         <tr>
