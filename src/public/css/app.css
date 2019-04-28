@@ -71,7 +71,7 @@ body {
   font-weight: 400;
   line-height: 1.6;
   color: #212529;
-  text-align: left;
+  text-align: center;
   background-color: #f8fafc;
 }
 
@@ -10617,6 +10617,7 @@ a.text-dark:focus {
 
   body {
     min-width: 992px !important;
+    align-content: center;
   }
 
   .container {

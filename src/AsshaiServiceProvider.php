@@ -3,11 +3,13 @@
 namespace Firstparcial\Asshai;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class AsshaiServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        Schema::defaultStringLength(191);
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/api2.php');
         

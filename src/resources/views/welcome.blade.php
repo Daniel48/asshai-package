@@ -10,7 +10,13 @@
         
     </head>
     <body>
-        <div id="app"></div>
+        <div id="app" data={{ auth()->user()}}></div>
+        <div class="panel-body">
+        <form method="POST" action="{{route('logout')}}">
+                {{ csrf_field() }}
+                <button className="btn btn-danger btn-xs " type="submit">Cerrar Sesion</button>
+            </div>
+        </form>
        <script src="../js/app.js"></script>
     </body>
 </html>

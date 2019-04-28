@@ -66,7 +66,6 @@ export default class Listing extends Component {
     handlePageChange(pageNumber) {
         console.log(`active page is ${pageNumber}`);
         this.setState({activePage: pageNumber});
-        //"http://127.0.0.1:8000/asshai/users?page=1
         axios.get('http://127.0.0.1:8000/api/users?page='+pageNumber)
         .then(response =>{
             if(isMounted){

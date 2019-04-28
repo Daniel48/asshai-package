@@ -6,10 +6,27 @@
         
 })->where('path','.*'); */
 
-Route::get('/asshai/{path}',function(){
-    return view('asshai::welcome');
-})->where('path','.*');
+Route::get('asshai',function(){
+    return view('asshai::auth.login');
+});
 
+/* Route::get('/asshai',function(){
+    return view('asshai::auth.login');
+}); */
+
+
+Route::group(['namespace' => 'Firstparcial\Asshai\Http\Controllers'], function () {
+
+    Route::get('asshai', 'Auth\LoginController@showLoginForm')
+    ->name('dashboard');
+    Route::get('asshai/index', 'HomeController@index')
+    ->name('dashboard');
+
+    Route::post('login','Auth\LoginController@login')->name('login');
+    Route::post('logout','Auth\LoginController@logout')->name('logout');
+       
+
+});
 
 /* Route::group(['namespace' => 'Firstparcial\Asshai\Http\Controllers'], function () {
     
