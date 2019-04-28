@@ -87,8 +87,9 @@ export default class Listing extends Component {
         return (
             <div> 
                 <hr/>
-                {this.state.alert_message=="success"?<SuccessAlert/>:null}
-                {this.state.alert_message=="error"?<ErrorAlert/>:null}
+                {this.state.alert_message=="success"?<SuccessAlert message={"El usuario se elimino correctamente"}/>:null}
+                {this.state.alert_message=="error"?<ErrorAlert message={"Ha ocurrido un error mientras se eliminaba el usuario"}/>:null}
+
 
                 <table className="table">
                     <thead>

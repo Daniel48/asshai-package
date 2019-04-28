@@ -79,8 +79,9 @@ export default class Add extends Component {
         return (
             <div>
                 <hr/>
-                {this.state.alert_message=="success"?<SuccessAlert/>:null}
-                {this.state.alert_message=="error"?<ErrorAlert/>:null}
+                {this.state.alert_message=="success"?<SuccessAlert message={"El usuario agregado correctamente"}/>:null}
+                {this.state.alert_message=="error"?<ErrorAlert message={"Ha ocurrido un error mientras se agregaba el usuario"}/>:null}
+
 
 
                 <form onSubmit={this.onSubmit}>

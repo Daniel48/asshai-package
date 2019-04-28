@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import {Link, Route} from 'react-router-dom';
+import {Link, Route, Switch} from 'react-router-dom';
 import Home from './Home';
 import About from './About';
 import Users from './users/Index';
+import Error404 from './users/Error404';
 
 export default class Header extends Component {
     render() {
@@ -31,13 +32,15 @@ export default class Header extends Component {
                     </form>
                 </div>
                 </nav>
-                    
+                    <Switch>
                     <Route exact path='/asshai/index' component={Home}/>
                     <Route exact path='/asshai/about' component={About}/>
                     <Route exact path='/asshai/users' component={Users}/>
                     <Route exact path="/asshai/users/add" component={Users}/>
                     <Route exact path="/asshai/users/edit/:id" component={Users}/>
-                    </div>
+                    <Route exact path="/asshai/*" component={Error404}/>
+                    </Switch>
+                </div>
         );
     }
 }
