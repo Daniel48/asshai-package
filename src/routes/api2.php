@@ -36,5 +36,15 @@ Route::group(['prefix' => 'api'], function () {
         Route::put('users/update/{id}','UsuarioController@update');
         Route::delete('users/delete/{id}','UsuarioController@destroy');
 
-        });
+        //:::::::GRUPO CONTROLLER::::://
+        //Route::get('login','UsuarioController@index');
+        Route::get('groups','GroupController@index');
+        Route::post('groups/store','GroupController@store');
+        Route::get('groups/edit/{id}','GroupController@edit');
+        Route::put('groups/update/{id}','GroupController@update');
+        Route::delete('groups/delete/{id}','GroupController@destroy');
+ 
+        Route::get('gpjson','GroupController@getGroups');
+           
+    });
 });

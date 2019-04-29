@@ -4,10 +4,10 @@ namespace Firstparcial\Asshai\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
+use Firstparcial\Asshai\Models\Group;
+use Illuminate\Support\Facades\DB;
 
-
-class UsuarioController extends Controller
+class GroupController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,20 +15,9 @@ class UsuarioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        $result = User::paginate(2);
+    {
+        $result = Group::paginate(2);
         return $result;
-        /* return view('asshai::auth.login'); */     
-   
-    }
-
-    public function test()
-    {   
-        dd("ESTO ES TEST");
-        $result = User::all(); 
-        return response().json($result);
-         //return view('asshai::welcome');     
-   
     }
 
     /**
@@ -36,6 +25,14 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getGroups()
+    {
+        $result = DB::table('groups')->select('name')->get()->all();
+        return response()->json($result);
+    }
+
+
     public function create()
     {
         //
@@ -49,15 +46,9 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User();
-        $user->name = $request->user_nom;
-        $user->address = $request->user_dir;
-        $user->email = $request->user_email;
-        $user->telephone = $request->user_tel;
-        $user->username = $request->user_username;
-        $user->password = bcrypt($request->user_password);
-        $user->idGrupo = 1; 
-        $user->save();
+        $group = new Group();
+        $group->name = $request->group_name; 
+        $group->save();
     }
 
     /**
@@ -78,9 +69,9 @@ class UsuarioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $user = User::find($id);
-        return $user;
+    {   
+        $group = Group::find($id);
+        return $group;
     }
 
     /**
@@ -92,14 +83,9 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
-        $user->nombre = $request->user_nom;
-        $user->direccion = $request->user_dir;
-        $user->email = $request->user_email;
-        $user->telefono = $request->user_tel;
-        $user->username = $request->user_username;
-        $user->idGrupo = $request ->user_group;  
-        $user->save();
+        $group = Group::find($id);
+        $group->name = $request->group_name;
+        $group->save();
     }
 
     /**
@@ -110,7 +96,7 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
-        $user->delete();
+        $group = Group::find($id);
+        $group->delete();
     }
 }

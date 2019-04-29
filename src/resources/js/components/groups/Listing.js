@@ -11,7 +11,7 @@ export default class Listing extends Component {
     constructor(){
         super();
         this.state={
-            users:[],
+            groups:[],
             activePage:1,
             itemsCountPerPage:1,
             totalItemsCount:1,
@@ -23,14 +23,13 @@ export default class Listing extends Component {
     
     componentDidMount(){
         isMounted = true;
-        
-        axios.get('http://127.0.0.1:8000/api/users')
+        axios.get('http://127.0.0.1:8000/api/groups')
         .then(response =>{
             if(isMounted){
-                console.log(response.data.data);
+                console.log("PETICION GET HECHA");
                 this.setState(
                     {
-                        users:response.data.data,
+                        groups:response.data.data,
                         itemsCountPerPage:response.data.per_page,
                         totalItemsCount:response.data.total,
                         activePage:response.data.current_page
@@ -45,15 +44,15 @@ export default class Listing extends Component {
 
     onDelete(id){
         console.log(JSON.stringify(id+"AFUERA"));
-         axios.delete('http://127.0.0.1:8000/api/users/delete/'+id)
+         axios.delete('http://127.0.0.1:8000/api/groups/delete/'+id)
         .then(response =>{
-            var users1 = this.state.users;
+            var groups1 = this.state.groups;
             console.log("HOLA DESDE AQUI");
-            for (var i = 0; i < users1.length; i++) {
-                if (users1[i].id == id) {
-                    users1.splice(i,1);
+            for (var i = 0; i < groups1.length; i++) {
+                if (groups1[i].id == id) {
+                    groups1.splice(i,1);
                     if (isMounted) {
-                        this.setState({users:users1});
+                        this.setState({groups:groups1});
                       }
                 }
             }
@@ -61,18 +60,18 @@ export default class Listing extends Component {
             }).catch(error =>{
                 this.setState({alert_message:"error"});
             }); 
-        console.log(this.state.users);   
+        console.log(this.state.groups);   
     }
     handlePageChange(pageNumber) {
         console.log(`active page is ${pageNumber}`);
         this.setState({activePage: pageNumber});
-        axios.get('http://127.0.0.1:8000/api/users?page='+pageNumber)
+        axios.get('http://127.0.0.1:8000/api/groups?page='+pageNumber)
         .then(response =>{
             if(isMounted){
                 console.log(response.data.data);
                 this.setState(
                     {
-                        users:response.data.data,
+                        groups:response.data.data,
                         itemsCountPerPage:response.data.per_page,
                         totalItemsCount:response.data.total,
                         activePage:response.data.current_page
@@ -95,27 +94,19 @@ export default class Listing extends Component {
                         <tr>
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Direccion</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Telefono</th>
-                        <th scope="col">Username</th>
                         <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            this.state.users.map(getUsers =>{
+                            this.state.groups.map(getGroups =>{
                                 return(
-                                <tr key={getUsers.id}>
-                                    <th scope="row">{getUsers.id}</th>
-                                    <td>{getUsers.name}</td>
-                                    <td>{getUsers.address}</td>
-                                    <td>{getUsers.email}</td>
-                                    <td>{getUsers.telephone}</td>
-                                    <td>{getUsers.username}</td>
+                                <tr key={getGroups.id}>
+                                    <th scope="row">{getGroups.id}</th>
+                                    <td>{getGroups.name}</td>
                                     <td>
-                                        <Link to={`/asshai/users/edit/${getUsers.id}`}>Edit </Link> 
-                                        <a href="#" onClick={this.onDelete.bind(this,getUsers.id)}>Delete</a>
+                                        <Link to={`/asshai/groups/edit/${getGroups.id}`}>Edit </Link> 
+                                        <a href="#" onClick={this.onDelete.bind(this,getGroups.id)}>Delete</a>
                                     </td>
                                 </tr>
                                 )

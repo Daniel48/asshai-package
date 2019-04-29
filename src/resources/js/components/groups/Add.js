@@ -1,59 +1,37 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+
 import SuccessAlert from './SuccessAlert';
 import ErrorAlert from './ErrorAlert';
 
-
-var isMounted = false;
 export default class Add extends Component {
     constructor(){
         super();
-        this.onChangeUserName=this.onChangeUserName.bind(this);
-        this.onChangeUserDir=this.onChangeUserDir.bind(this);
+        this.onChangeGroupName=this.onChangeGroupName.bind(this);
+        /* this.onChangeUserDir=this.onChangeUserDir.bind(this);
         this.onChangeUserEmail=this.onChangeUserEmail.bind(this);
         this.onChangeUserTel=this.onChangeUserTel.bind(this);
         this.onChangeUserUsName=this.onChangeUserUsName.bind(this);
-        this.onChangeUserPassword=this.onChangeUserPassword.bind(this);
-        this.onChangeUserGroup=this.onChangeUserGroup.bind(this);
+        this.onChangeUserPassword=this.onChangeUserPassword.bind(this); */
 
         this.onSubmit=this.onSubmit.bind(this);
         this.state={
-            user_nom:'',
-            user_dir:'',
+            group_name:'',
+            /* group_dir:'',
             user_email:'',
             user_tel:'',
             user_username:'',
-            user_password:'',
-            user_group:'',
-            alert_message :'',
-            groups:[]
+            user_password:'',*/
+            alert_message :''
         };
     }
-    componentDidMount(){
-        isMounted = true;
-        axios.get('http://127.0.0.1:8000/api/gpjson')
-        .then(response =>{
-            if(isMounted){
-                console.log(response.data);
-                this.setState(
-                    {
-                        groups:response.data,
-                    });
-            }
-            console.log(this.state.groups);
-            
+    onChangeGroupName(e){
+        
+       this.setState({
+            group_name:e.target.value
         });
     }
-    componentWillUnmount() {
-        isMounted = false;
-    }
-    
-    onChangeUserName(e){
-        this.setState({
-            user_nom:e.target.value
-        });
-    }
-    onChangeUserDir(e){
+    /* onChangeUserDir(e){
         this.setState({
             user_dir:e.target.value
         });
@@ -78,50 +56,42 @@ export default class Add extends Component {
         this.setState({
             user_password:e.target.value
         });
-    }
+    } */
 
     onSubmit(e){
         e.preventDefault();
-        const user ={
-            user_nom : this.state.user_nom,
-            user_dir : this.state.user_dir,
+        const group ={
+            group_name : this.state.group_name
+            /* user_dir : this.state.user_dir,
             user_email : this.state.user_email,
             user_tel : this.state.user_tel,
             user_username : this.state.user_username,
-            user_password : this.state.user_password
+            user_password : this.state.user_password */
         }
-        axios.post('http://127.0.0.1:8000/api/users/store',user)
+        axios.post('http://127.0.0.1:8000/api/groups/store',group)
         .then(res =>{
             this.setState({alert_message:"success"});
         }).catch(error =>{
             this.setState({alert_message:"error"});
         });
     }
-    onChangeUserGroup(e) {
-        this.setState({user_group: e.target.value});
-      }
-
-
 
     render() {
-        const options = [];
-        this.state.groups.forEach(response =>options.push(
-            <option value={response.name}>{response.name}</option>
-        ));
         return (
             <div>
                 <hr/>
-                {this.state.alert_message=="success"?<SuccessAlert message={"El usuario agregado correctamente"}/>:null}
-                {this.state.alert_message=="error"?<ErrorAlert message={"Ha ocurrido un error mientras se agregaba el usuario"}/>:null}
-                
+                {this.state.alert_message=="success"?<SuccessAlert message={"El grupo agregado correctamente"}/>:null}
+                {this.state.alert_message=="error"?<ErrorAlert message={"Ha ocurrido un error mientras se agregaba el grupo"}/>:null}
+
+
 
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
-                        <label htmlFor="user_nom">Nombre</label>
-                        <input type="text" className="form-control" id="user_nom" 
-                                value={this.state.user_nom} onChange={this.onChangeUserName}/>
+                        <label htmlFor="group_name">Nombre</label>
+                        <input type="text" className="form-control" id="group_name" 
+                                value={this.state.group_name} onChange={this.onChangeGroupName}/>
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <label htmlFor="user_dir">Direccion</label>
                         <input type="text" className="form-control" id="user_dir" 
                                 value={this.state.user_dir} onChange={this.onChangeUserDir}/>
@@ -145,14 +115,7 @@ export default class Add extends Component {
                         <label htmlFor="user_password">Password</label>
                         <input type="password" className="form-control" id="user_password"
                         value={this.state.user_password} onChange={this.onChangeUserPassword}/>
-                    </div>
-                    <div>
-                    <div className="form-group">
-                        <select key={this.state.id} className="widefat" value="TEST" name="test" onChange={this.onChangeUserGroup}>
-                        {options}                          
-                        </select>
-                    </div>
-            </div>
+                    </div> */}
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </form>
             </div>

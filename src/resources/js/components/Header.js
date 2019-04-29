@@ -4,7 +4,9 @@ import {Link, Route, Switch, Redirect} from 'react-router-dom';
 import Home from './Home';
 import About from './About';
 import Users from './users/Index';
+import Groups from './groups/Index';
 import Error404 from './users/Error404';
+
 
 
 export default class Header extends Component {
@@ -42,6 +44,9 @@ export default class Header extends Component {
                     <li className="nav-item">
                         <Link className="nav-link" to="/asshai/users">Usuarios</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/asshai/groups">Grupos</Link>
+                    </li>
                     </ul>
                     <form className="form-inline my-2 my-lg-0" onSubmit={this.onSubmit}>
                     {/* <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" /> */} 
@@ -53,8 +58,11 @@ export default class Header extends Component {
                     <Route exact path='/asshai/index' component={Home}/>
                     <Route exact path='/asshai/about' component={About}/>
                     <Route exact path='/asshai/users' component={Users}/>
-                    <Route exact path="/asshai/users/add" component={Users}/>
-                    <Route exact path="/asshai/users/edit/:id" component={Users}/>
+                    <Route exact path='/asshai/users/add' component={Users}/>
+                    <Route exact path='/asshai/users/edit/:id' component={Users}/>
+                    <Route exact path='/asshai/groups' component={Groups}/>
+                    <Route exact path='/asshai/groups/add' component={Groups}/>
+                    <Route exact path='/asshai/groups/edit/:id' component={Groups}/>
                     <Route exact path="/asshai/*" component={Error404}/>
                     </Switch>
                 </div>
