@@ -11,6 +11,7 @@ export default class Edit extends Component {
         this.onChangeUserDir=this.onChangeUserDir.bind(this);
         this.onChangeUserEmail=this.onChangeUserEmail.bind(this);
         this.onChangeUserTel=this.onChangeUserTel.bind(this);
+        this.onChangeUserGroup=this.onChangeUserGroup.bind(this);
         this.onChangeUserUsName=this.onChangeUserUsName.bind(this);
         //this.onChangeUserPassword=this.onChangeUserPassword.bind(this);
         this.onSubmit=this.onSubmit.bind(this);
@@ -20,32 +21,54 @@ export default class Edit extends Component {
             user_dir:'',
             user_email:'',
             user_tel:'',
+            user_group:'',
             user_username:'',
-            alert_message :''
+            alert_message :'',
+            groups:[]
             //user_password:''
         };
     }
     componentDidMount(){
         isMounted = true;
+        axios.get('http://127.0.0.1:8000/api/gpjson')
+        .then(response =>{
+            if(isMounted){
+                console.log(response.data);
+                this.setState(
+                    {
+                        groups:response.data,
+                    });
+            }
+        });
         axios.get('http://127.0.0.1:8000/api/users/edit/'+this.props.match.params.id)
         .then(response =>{
             if(isMounted){
                 this.setState(
                     {
-                        user_nom:response.data.nombre,
-                        user_dir:response.data.direccion,
+                        user_nom:response.data.name,
+                        user_dir:response.data.address,
                         user_email:response.data.email,
-                        user_tel:response.data.telefono,
-                        user_username:response.data.username
+                        user_tel:response.data.telephone,
+                        user_username:response.data.username,
+                        user_group:response.data.user_group
                     });
             }
             
         });
     }
+    componentWillUnmount() {
+        isMounted = false;
+    }
     onChangeUserName(e){
         this.setState({
             user_nom:e.target.value
         });
+    }
+    onChangeUserGroup(e){
+        this.setState({
+            user_group:e.target.value
+        });
+        console.log(this.state.user_group);
     }
     onChangeUserDir(e){
         this.setState({
@@ -76,6 +99,7 @@ export default class Edit extends Component {
             user_dir : this.state.user_dir,
             user_email : this.state.user_email,
             user_tel : this.state.user_tel,
+            user_group: this.state.user_group,
             user_username : this.state.user_username
         }
         axios.put('http://127.0.0.1:8000/api/users/update/'+this.props.match.params.id,user)
@@ -85,7 +109,13 @@ export default class Edit extends Component {
             this.setState({alert_message:"error"});
         });
     }
+
+    
     render() {
+        const options = [];
+        this.state.groups.forEach(response =>options.push(
+            <option value={response.name}>{response.name}</option>
+        ));
         return (
             <div>
                 <hr/>
@@ -119,7 +149,11 @@ export default class Edit extends Component {
                     <input type="text" className="form-control" id="user_username" 
                     value={this.state.user_username} onChange={this.onChangeUserUsName} />
                 </div>
-                
+                <div className="form-group">
+                        <select key={this.state.id} className="widefat" value={this.state.user_group} name="test" onChange={this.onChangeUserGroup}>
+                        {options}                          
+                        </select>
+                    </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
         </div>

@@ -5,7 +5,8 @@ namespace Firstparcial\Asshai\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
-
+use Illuminate\Support\Facades\DB;
+use Firstparcial\Asshai\Models\Group;
 
 class UsuarioController extends Controller
 {
@@ -16,14 +17,39 @@ class UsuarioController extends Controller
      */
     public function index()
     {   
-        $result = User::paginate(2);
-        return $result;
-        /* return view('asshai::auth.login'); */     
+        $result = DB::table('users as u')
+        ->join('groups as g','g.id', '=','u.idGrupo')
+        ->select('g.name as group','g.id as idGrupo','u.id','u.name','u.telephone','u.address','u.username','u.email')
+        ->paginate(5);
+        
+        
+        //$result = User::select('name','password')->get();
+        /* $result = DB::table('users as u')
+        ->join('groups as g','g.id', '=','u.idGrupo')
+        ->get(); */
+        /* $result = User::paginate(5);
+        $grupo = Group::all(); */
+        //$result = User::paginate(5);
+        return $result;   
    
+    }
+
+
+    public function getId(){
+        $namegroup ="Finanzas";
+        $id = $this->getIdGroup($namegroup);
+        dd($id);
+        /* $idGroup = DB::table('groups')
+        ->select('id')
+        ->where('name','=',$namegroup)
+        ->get();
+        dd($idGroup[0]->id); */
+        
     }
 
     public function test()
     {   
+       
         dd("ESTO ES TEST");
         $result = User::all(); 
         return response().json($result);
@@ -31,6 +57,13 @@ class UsuarioController extends Controller
    
     }
 
+    public function testpost($request){
+        $idGroup = DB::table('groups')
+        ->select('*')
+        ->where('name','=',$request->user_group)
+        ->get();
+        dd($idGroup);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -49,6 +82,11 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+        /* $namegroup = $request->user_group;
+        $idGroup = DB::table('groups')
+        ->select('id')
+        ->where('name','=',$namegroup)
+        ->get();*/
         $user = new User();
         $user->name = $request->user_nom;
         $user->address = $request->user_dir;
@@ -56,7 +94,8 @@ class UsuarioController extends Controller
         $user->telephone = $request->user_tel;
         $user->username = $request->user_username;
         $user->password = bcrypt($request->user_password);
-        $user->idGrupo = 1; 
+        //$user->idGrupo = $idGroup[0]->id; 
+        $user->idGrupo = $this->getIdGroup($request->user_group);
         $user->save();
     }
 
@@ -80,7 +119,16 @@ class UsuarioController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+        
         return $user;
+    }
+
+    public function getIdGroup($namegroup){
+        $idGroup = DB::table('groups')
+        ->select('id')
+        ->where('name','=',$namegroup)
+        ->get();
+        return $idGroup[0]->id;
     }
 
     /**
@@ -91,14 +139,19 @@ class UsuarioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
+        /* $namegroup = $request->user_group;
+        $idGroup = DB::table('groups')
+        ->select('id')
+        ->where('name','=',$namegroup)
+        ->get(); */
         $user = User::find($id);
-        $user->nombre = $request->user_nom;
-        $user->direccion = $request->user_dir;
+        $user->name = $request->user_nom;
+        $user->address = $request->user_dir;
         $user->email = $request->user_email;
-        $user->telefono = $request->user_tel;
+        $user->telephone = $request->user_tel;
         $user->username = $request->user_username;
-        $user->idGrupo = $request ->user_group;  
+        $user->idGrupo = $this->getIdGroup($request->user_group);  
         $user->save();
     }
 

@@ -87,11 +87,13 @@ export default class Add extends Component {
             user_dir : this.state.user_dir,
             user_email : this.state.user_email,
             user_tel : this.state.user_tel,
+            user_group: this.state.user_group,
             user_username : this.state.user_username,
             user_password : this.state.user_password
-        }
+        };
         axios.post('http://127.0.0.1:8000/api/users/store',user)
         .then(res =>{
+            console.log(res);
             this.setState({alert_message:"success"});
         }).catch(error =>{
             this.setState({alert_message:"error"});
@@ -99,6 +101,7 @@ export default class Add extends Component {
     }
     onChangeUserGroup(e) {
         this.setState({user_group: e.target.value});
+        console.log(this.state.user_group);
       }
 
 
@@ -146,13 +149,13 @@ export default class Add extends Component {
                         <input type="password" className="form-control" id="user_password"
                         value={this.state.user_password} onChange={this.onChangeUserPassword}/>
                     </div>
-                    <div>
-                    <div className="form-group">
-                        <select key={this.state.id} className="widefat" value="TEST" name="test" onChange={this.onChangeUserGroup}>
+                    
+                    <div className="form-group" >
+                        <select  className="widefat" value={this.state.user_group} id="user_group" name={this.state.user_group} onChange={this.onChangeUserGroup}>
                         {options}                          
                         </select>
                     </div>
-            </div>
+                    
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </form>
             </div>

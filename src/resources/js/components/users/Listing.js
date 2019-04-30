@@ -27,7 +27,7 @@ export default class Listing extends Component {
         axios.get('http://127.0.0.1:8000/api/users')
         .then(response =>{
             if(isMounted){
-                console.log(response.data.data);
+                console.log(response);
                 this.setState(
                     {
                         users:response.data.data,
@@ -44,11 +44,9 @@ export default class Listing extends Component {
     }
 
     onDelete(id){
-        console.log(JSON.stringify(id+"AFUERA"));
          axios.delete('http://127.0.0.1:8000/api/users/delete/'+id)
         .then(response =>{
             var users1 = this.state.users;
-            console.log("HOLA DESDE AQUI");
             for (var i = 0; i < users1.length; i++) {
                 if (users1[i].id == id) {
                     users1.splice(i,1);
@@ -60,15 +58,14 @@ export default class Listing extends Component {
                 this.setState({alert_message:"success"});
             }).catch(error =>{
                 this.setState({alert_message:"error"});
-            }); 
-        console.log(this.state.users);   
+            });    
     }
     handlePageChange(pageNumber) {
-        console.log(`active page is ${pageNumber}`);
         this.setState({activePage: pageNumber});
         axios.get('http://127.0.0.1:8000/api/users?page='+pageNumber)
         .then(response =>{
             if(isMounted){
+                console.log("PETICION HECHA PAGENUMBER");
                 console.log(response.data.data);
                 this.setState(
                     {
@@ -97,6 +94,7 @@ export default class Listing extends Component {
                         <th scope="col">Nombre</th>
                         <th scope="col">Direccion</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Grupo</th>
                         <th scope="col">Telefono</th>
                         <th scope="col">Username</th>
                         <th scope="col">Action</th>
@@ -111,6 +109,7 @@ export default class Listing extends Component {
                                     <td>{getUsers.name}</td>
                                     <td>{getUsers.address}</td>
                                     <td>{getUsers.email}</td>
+                                    <td>{getUsers.group}</td>
                                     <td>{getUsers.telephone}</td>
                                     <td>{getUsers.username}</td>
                                     <td>

@@ -16,7 +16,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $result = Group::paginate(2);
+        $result = Group::paginate(5);
         return $result;
     }
 

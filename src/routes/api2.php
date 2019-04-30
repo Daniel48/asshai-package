@@ -25,6 +25,8 @@ Route::group(['prefix' => 'api'], function () {
         //Route::post('asshai', 'AsshaiController@send');
         //Route::get('asshai', 'HomeController@index'); 
         Route::get('test','UsuarioController@test');
+        Route::post('testpost','UsuarioController@testpost');
+        Route::get('getid','UsuarioController@getId');
 
         //:::::::LOGIN CONTROLLER :::::://
 
