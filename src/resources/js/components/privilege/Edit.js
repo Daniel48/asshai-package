@@ -15,7 +15,8 @@ export default class Edit extends Component {
         this.state={
             privilege_name:'',
             privilege_description:'',
-            alert_message :''
+            alert_message :'',
+            url:window.location.pathname
         };
     }
     componentDidMount(){
@@ -49,6 +50,7 @@ export default class Edit extends Component {
         const privilege ={
             privilege_name : this.state.privilege_name,
             privilege_description : this.state.privilege_description,
+            url:this.state.url
         };
         axios.put('http://127.0.0.1:8000/api/privileges/update/'+this.props.match.params.id,privilege)
         .then(res =>{

@@ -18,6 +18,7 @@ export default class Add extends Component {
 
         this.onSubmit=this.onSubmit.bind(this);
         this.state={
+            url: window.location.pathname,
             user_nom:'',
             user_dir:'',
             user_email:'',
@@ -25,9 +26,11 @@ export default class Add extends Component {
             user_username:'',
             user_password:'',
             user_group:'',
+            
             alert_message :'',
             groups:[]
         };
+        console.log(this.state);
     }
     componentDidMount(){
         isMounted = true;
@@ -89,7 +92,9 @@ export default class Add extends Component {
             user_tel : this.state.user_tel,
             user_group: this.state.user_group,
             user_username : this.state.user_username,
-            user_password : this.state.user_password
+            user_password : this.state.user_password,
+
+            url : this.state.url 
         };
         axios.post('http://127.0.0.1:8000/api/users/store',user)
         .then(res =>{

@@ -25,6 +25,7 @@ Route::group(['namespace' => 'Firstparcial\Asshai\Http\Controllers'], function (
     Route::post('login','Auth\LoginController@login')->name('login');
     Route::post('logout','Auth\LoginController@logout')->name('logout');
 
+    Route::get('firebase','FirebaseController@index');
     
        
 

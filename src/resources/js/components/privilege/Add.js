@@ -14,7 +14,8 @@ export default class Add extends Component {
         this.state={
             privilege_name:'',
             privilege_description:'',
-            alert_message :''
+            alert_message :'',
+            url:window.location.pathname
         };
     }
     onChangePrivilegeName(e){
@@ -33,8 +34,10 @@ export default class Add extends Component {
         e.preventDefault();
         const privilege ={
             privilege_name : this.state.privilege_name,
-            privilege_description: this.state.privilege_description
+            privilege_description: this.state.privilege_description,
+            url:this.state.url
         };
+        console.log(privilege);
         axios.post('http://127.0.0.1:8000/api/privileges/store',privilege)
         .then(res =>{
             this.setState({alert_message:"success"});

@@ -10,7 +10,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "kreait/firebase-php": "^4.0"
+    },
     "autoload": {
         "psr-4": {
             "Firstparcial\\Asshai\\": "src/"

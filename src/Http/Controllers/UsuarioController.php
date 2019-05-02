@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\DB;
-use Firstparcial\Asshai\Models\Group;
+use Firstparcial\Asshai\Http\Controllers\FirebaseController;
+use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
@@ -21,15 +22,7 @@ class UsuarioController extends Controller
         ->join('groups as g','g.id', '=','u.idGroup')
         ->select('g.name as group','g.id as idGrupo','u.id','u.name','u.telephone','u.address','u.username','u.email')
         ->paginate(5);
-        
-        
-        //$result = User::select('name','password')->get();
-        /* $result = DB::table('users as u')
-        ->join('groups as g','g.id', '=','u.idGrupo')
-        ->get(); */
-        /* $result = User::paginate(5);
-        $grupo = Group::all(); */
-        //$result = User::paginate(5);
+    
         return $result;   
    
     }
@@ -82,11 +75,11 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        /* $namegroup = $request->user_group;
-        $idGroup = DB::table('groups')
-        ->select('id')
-        ->where('name','=',$namegroup)
-        ->get();*/
+        $idUser = Auth::user()->id;
+        $usuario = DB::table('users')
+       ->select('name')
+       ->where('id','=',$idUser)
+       ->get()->all();
         $user = new User();
         $user->name = $request->user_nom;
         $user->address = $request->user_dir;
@@ -94,9 +87,10 @@ class UsuarioController extends Controller
         $user->telephone = $request->user_tel;
         $user->username = $request->user_username;
         $user->password = bcrypt($request->user_password);
-        //$user->idGrupo = $idGroup[0]->id; 
         $user->idGroup = $this->getIdGroup($request->user_group);
         $user->save();
+        $bitacora = new FirebaseController();
+        $bitacora->logFirebase($request->url,"Registro un nuevo usuario",$usuario[0]->name);
     }
 
     /**
@@ -140,11 +134,11 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {   
-        /* $namegroup = $request->user_group;
-        $idGroup = DB::table('groups')
-        ->select('id')
-        ->where('name','=',$namegroup)
-        ->get(); */
+        $idUser = Auth::user()->id;
+        $usuario = DB::table('users')
+       ->select('name')
+       ->where('id','=',$idUser)
+       ->get()->all();
         $user = User::find($id);
         $user->name = $request->user_nom;
         $user->address = $request->user_dir;
@@ -153,6 +147,8 @@ class UsuarioController extends Controller
         $user->username = $request->user_username;
         $user->idGroup = $this->getIdGroup($request->user_group);  
         $user->save();
+        $bitacora = new FirebaseController();
+        $bitacora->logFirebase($request->url,"Actualizo o edito un grupo",$usuario[0]->name);
     }
 
     /**

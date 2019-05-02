@@ -13,8 +13,10 @@ export default class Edit extends Component {
 
         this.state={
             group_name:'',
+            url:window.location.pathname,
             alert_message :''
         };
+        console.log(window.location);
     }
     componentDidMount(){
         isMounted = true;
@@ -37,7 +39,8 @@ export default class Edit extends Component {
     onSubmit(e){
         e.preventDefault();
         const group ={
-            group_name : this.state.group_name
+            group_name : this.state.group_name,
+            url:this.state.url
         };
         axios.put('http://127.0.0.1:8000/api/groups/update/'+this.props.match.params.id,group)
         .then(res =>{

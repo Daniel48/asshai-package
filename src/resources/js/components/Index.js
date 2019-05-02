@@ -3,19 +3,21 @@ import ReactDOM from "react-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 
+
 import {BrowserRouter as Router,Link,Route} from 'react-router-dom';
 
 var isMounted = false;
 var idUser = 0;
+
 export default class Index extends Component {
   constructor(props){
     super(props);
     idUser = props.data;
     this.state={
         privileges:[],
-        mounted:false
+        mounted:false,
+        user_active: idUser
     };
-  //this.handlePageChange=this.handlePageChange.bind(this);
 }
   componentWillMount(){
     isMounted = true;
@@ -25,13 +27,8 @@ export default class Index extends Component {
         if(isMounted){
             this.setState(
               {privileges:response.data,
-                mounted:true
+                mounted:true,
               });
-            /* console.log(this.state);
-            console.log("SE EJECUTA EL RENDER A CONTINUACION");
-            isMounted=false;
-            this.render(); */
-            
         }
     });
     
@@ -43,7 +40,7 @@ componentDidMount(){
   render() {
     return (
       <div className="container">
-        {this.state.mounted==true?<Header message={this.state}/>:null}
+        {this.state.mounted==true?<Header data={data} message={this.state}/>:null}
           Bienvenido {data}
         <Footer />
       </div>

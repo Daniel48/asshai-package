@@ -6,9 +6,18 @@ use Illuminate\Http\Request;
 use Firstparcial\Asshai\Models\Privilege;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Firstparcial\Asshai\Http\Controllers\FirebaseController;
+use Illuminate\Support\Facades\Auth;
 
 class PrivilegeController extends Controller
 {
+    public $database;
+    public function __construct()
+    {
+        /* $instance = new FirebaseController();
+        $firebase = $instance->instanceFirebase();
+        $this->database = $firebase->getDatabase(); */
+    }
     /**
      * Display a listing of the resource.
      *
@@ -37,11 +46,18 @@ class PrivilegeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $idUser = Auth::user()->id;
+         $usuario = DB::table('users')
+        ->select('name')
+        ->where('id','=',$idUser)
+        ->get()->all();
         $privilege = new Privilege();
         $privilege->name = $request->privilege_name;
         $privilege->description = $request->privilege_description;
         $privilege->save();
+        $bitacora = new FirebaseController();
+        $bitacora->logFirebase($request->url,"Registro un nuevo privilegio",$usuario[0]->name);
     }
 
     /**
@@ -50,11 +66,12 @@ class PrivilegeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function groupHasPriveleges($id){
+    public function groupHasPriveleges($id,Request $request){
         $idUser = $id;
+       
         if ($id==1) {
             $privilege= DB::table('privileges as p')
-            ->select('p.name as privilegio','p.id as idPriv')
+            ->select('p.name as privilegio','p.slug','p.id as idPriv')
             ->where('p.id','<>',1)
             ->get()->all();
             return $privilege;
@@ -67,13 +84,11 @@ class PrivilegeController extends Controller
             $privilege = DB::table('privilege_groups as pg')
             ->join('privileges as p','p.id','=','pg.idPrivilege')
             ->join('groups as g','g.id','=','pg.idGroup')
-            ->select('p.name as privilegio','g.name as grupo','p.id as idPriv','g.id as idGroup')
+            ->select('p.name as privilegio','p.slug','g.name as grupo','p.id as idPriv','g.id as idGroup')
             ->where('idGroup','=',$idGroup)
-            ->get()->all();
-           return $privilege;
+            ->get()->all();  
+            return $privilege;
         }
-        
-        
     }
     public function show($id)
     {
@@ -106,11 +121,17 @@ class PrivilegeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   $idUser = Auth::user()->id;
+        $usuario = DB::table('users')
+       ->select('name')
+       ->where('id','=',$idUser)
+       ->get()->all();
         $privilege = Privilege::find($id);
         $privilege->name = $request->privilege_name;
         $privilege->description = $request->privilege_description;
         $privilege->save();
+        $bitacora = new FirebaseController();
+        $bitacora->logFirebase($request->url,"Actualizo o edito un privilegio",$usuario[0]->name);
     }
 
     /**

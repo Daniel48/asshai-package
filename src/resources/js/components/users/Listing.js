@@ -27,7 +27,6 @@ export default class Listing extends Component {
         axios.get('http://127.0.0.1:8000/api/users')
         .then(response =>{
             if(isMounted){
-                console.log(response);
                 this.setState(
                     {
                         users:response.data.data,
@@ -65,8 +64,6 @@ export default class Listing extends Component {
         axios.get('http://127.0.0.1:8000/api/users?page='+pageNumber)
         .then(response =>{
             if(isMounted){
-                console.log("PETICION HECHA PAGENUMBER");
-                console.log(response.data.data);
                 this.setState(
                     {
                         users:response.data.data,

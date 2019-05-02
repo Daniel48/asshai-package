@@ -13,7 +13,6 @@ export default class Edit extends Component {
         this.onChangeUserTel=this.onChangeUserTel.bind(this);
         this.onChangeUserGroup=this.onChangeUserGroup.bind(this);
         this.onChangeUserUsName=this.onChangeUserUsName.bind(this);
-        //this.onChangeUserPassword=this.onChangeUserPassword.bind(this);
         this.onSubmit=this.onSubmit.bind(this);
 
         this.state={
@@ -24,9 +23,10 @@ export default class Edit extends Component {
             user_group:'',
             user_username:'',
             alert_message :'',
-            groups:[]
-            //user_password:''
+            groups:[],
+            url: window.location.pathname
         };
+        
     }
     componentDidMount(){
         isMounted = true;
@@ -100,8 +100,9 @@ export default class Edit extends Component {
             user_email : this.state.user_email,
             user_tel : this.state.user_tel,
             user_group: this.state.user_group,
-            user_username : this.state.user_username
-        }
+            user_username : this.state.user_username,
+            url : this.state.url 
+        };
         axios.put('http://127.0.0.1:8000/api/users/update/'+this.props.match.params.id,user)
         .then(res =>{
             this.setState({alert_message:"success"});

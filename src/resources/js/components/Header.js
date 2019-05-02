@@ -9,20 +9,18 @@ import Error404 from './users/Error404';
 import Privilege from './privilege/Index';
 import GivePrivileges from './groups/GivePrivileges';
 
-
-
-
+var id=0;
 export default class Header extends Component {
     constructor(props){
         super(props);
-        
         this.state={
+            user_active:props.message.user_active,
             /* user_id:this.props.id,
             user_nom:this.props.name,
             user_idGroup:props.idGroup, */
             privilege:props.message.privileges
         };
-        console.log(this.state.privilege);
+        console.log(this.state);
     }
     /* componentWillReceiveProps(props){
         this.setState({ loading: true });
@@ -55,7 +53,7 @@ export default class Header extends Component {
                             this.state.privilege.map(getPriv =>{
                                 return( 
                                     <li key={getPriv.idPriv} className="nav-item">
-                                    <Link className="nav-link" to={`/asshai/${getPriv.privilegio}`}>{getPriv.privilegio}</Link>
+                                    <Link className="nav-link" to={`/asshai/${getPriv.slug}`}>{getPriv.privilegio}</Link>
                                     </li>
                                 );
                             })

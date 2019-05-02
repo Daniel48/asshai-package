@@ -9,6 +9,6 @@ class Group extends Model
 {
     protected $guarded = [];
     protected $table = "groups";
-    protected $fillable = ['name','description'];
+    protected $fillable = ['name'];
     protected $primaryKey = 'id';
 }

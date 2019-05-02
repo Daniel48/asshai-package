@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Firstparcial\Asshai\Models\Group;
 use Illuminate\Support\Facades\DB;
+use Firstparcial\Asshai\Http\Controllers\FirebaseController;
+use Illuminate\Support\Facades\Auth;
 
 class GroupController extends Controller
 {
@@ -46,9 +48,16 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
+        $idUser = Auth::user()->id;
+        $usuario = DB::table('users')
+       ->select('name')
+       ->where('id','=',$idUser)
+       ->get()->all();
         $group = new Group();
         $group->name = $request->group_name; 
         $group->save();
+        $bitacora = new FirebaseController();
+        $bitacora->logFirebase($request->url,"Registro un nuevo grupo",$usuario[0]->name);
     }
 
     /**
@@ -83,9 +92,16 @@ class GroupController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $idUser = Auth::user()->id;
+        $usuario = DB::table('users')
+       ->select('name')
+       ->where('id','=',$idUser)
+       ->get()->all();
         $group = Group::find($id);
         $group->name = $request->group_name;
         $group->save();
+        $bitacora = new FirebaseController();
+        $bitacora->logFirebase($request->url,"Actualizo o edito un grupo",$usuario[0]->name);
     }
 
     /**
