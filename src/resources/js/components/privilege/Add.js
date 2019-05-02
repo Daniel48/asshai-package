@@ -9,10 +9,11 @@ export default class Add extends Component {
         super();
         this.onChangePrivilegeName=this.onChangePrivilegeName.bind(this);
         this.onChangePrivilegeDescription=this.onChangePrivilegeDescription.bind(this);
-        
+        this.onChangePrivilegeSlug=this.onChangePrivilegeSlug.bind(this);
         this.onSubmit=this.onSubmit.bind(this);
         this.state={
             privilege_name:'',
+            privilege_slug:'',
             privilege_description:'',
             alert_message :'',
             url:window.location.pathname
@@ -30,11 +31,18 @@ export default class Add extends Component {
              privilege_description:e.target.value
          });
      }
+     onChangePrivilegeSlug(e){
+        
+        this.setState({
+             privilege_slug:e.target.value
+         });
+     }
     onSubmit(e){
         e.preventDefault();
         const privilege ={
             privilege_name : this.state.privilege_name,
             privilege_description: this.state.privilege_description,
+            privilege_slug: this.state.privilege_slug,
             url:this.state.url
         };
         console.log(privilege);
@@ -60,6 +68,11 @@ export default class Add extends Component {
                         <label htmlFor="privilege_name">Nombre</label>
                         <input type="text" className="form-control" id="privilege_name" 
                                 value={this.state.privilege_name} onChange={this.onChangePrivilegeName}/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="privilege_slug">Slug</label>
+                        <input type="text" className="form-control" id="privilege_slug" 
+                                value={this.state.privilege_slug} onChange={this.onChangePrivilegeSlug}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="privilege_description">Descripcion</label>

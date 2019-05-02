@@ -12,7 +12,8 @@ export default class GivePrivileges extends Component {
             group_name:props.location.state.name,
             privileges:[],
             privileges_name:'',
-            alert_message :''
+            alert_message :'',
+            url:window.location.pathname
         };
         this.onChangePrivilege=this.onChangePrivilege.bind(this);
         this.onSubmit=this.onSubmit.bind(this);
@@ -41,7 +42,8 @@ export default class GivePrivileges extends Component {
     onSubmit(e){
         e.preventDefault();
         const privileges ={
-            privileges_name : this.state.privileges_name
+            privileges_name : this.state.privileges_name,
+            url:this.state.url
         };
         console.log(privileges);
         axios.post('http://127.0.0.1:8000/api/privilegegroup/store/'+this.props.match.params.id,privileges)

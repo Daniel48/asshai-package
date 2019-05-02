@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Firstparcial\Asshai\Models\PrivilegeGroup;
+use Firstparcial\Asshai\Http\Controllers\FirebaseController;
+use Illuminate\Support\Facades\Auth;
 
 
 class PrivilegeGroupController extends Controller
@@ -82,7 +84,7 @@ class PrivilegeGroupController extends Controller
         $privilegeName = $request->privileges_name;
         $idPrivilegio = DB::table('privileges')
         ->select('id')
-        ->where('name','=',$privilegeName)
+        ->where('slug','=',$privilegeName)
         ->get()
         ->all();
         $query = DB::table('privilege_groups')
@@ -91,10 +93,17 @@ class PrivilegeGroupController extends Controller
         ->where('idPrivilege','=',$idPrivilegio[0]->id)
         ->get()->all();
         if(count($query)==0){
+            $idUser = Auth::user()->id;
+            $usuario = DB::table('users')
+            ->select('name')
+            ->where('id','=',$idUser)
+            ->get()->all();
             $privilegeGroup = new PrivilegeGroup();
             $privilegeGroup->idGroup = $idGrupo;
             $privilegeGroup->idPrivilege = $idPrivilegio[0]->id; 
             $privilegeGroup->save();
+            $bitacora = new FirebaseController();
+            $bitacora->logFirebase($request->url,"Asigno un privilegio a un grupo",$usuario[0]->name);
         };        
     }
 

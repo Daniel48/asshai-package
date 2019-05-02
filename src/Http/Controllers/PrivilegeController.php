@@ -54,6 +54,7 @@ class PrivilegeController extends Controller
         ->get()->all();
         $privilege = new Privilege();
         $privilege->name = $request->privilege_name;
+        $privilege->slug = $request->privilege_slug;
         $privilege->description = $request->privilege_description;
         $privilege->save();
         $bitacora = new FirebaseController();
@@ -110,7 +111,8 @@ class PrivilegeController extends Controller
 
     public function getPriv()
     {
-        $result = DB::table('privileges')->select('id','name')->get()->all();
+        $result = DB::table('privileges')->select('id','slug as name')
+        ->where('id','<>',1)->get()->all();
         return response()->json($result);
     }
     /**
