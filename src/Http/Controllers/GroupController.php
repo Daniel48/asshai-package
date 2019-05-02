@@ -28,7 +28,7 @@ class GroupController extends Controller
 
     public function getGroups()
     {
-        $result = DB::table('groups')->select('name')->get()->all();
+        $result = DB::table('groups')->select('id','name')->get()->all();
         return response()->json($result);
     }
 

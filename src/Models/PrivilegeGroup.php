@@ -1,14 +1,13 @@
 <?php
 
-
 namespace Firstparcial\Asshai\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Group extends Model
+class PrivilegeGroup extends Model
 {
     protected $guarded = [];
-    protected $table = "groups";
-    protected $fillable = ['name','description'];
+    protected $table = 'privilege_groups';
+    protected $fillable = ['idGroup','idPrivilege'];
     protected $primaryKey = 'id';
 }

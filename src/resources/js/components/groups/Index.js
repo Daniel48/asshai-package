@@ -4,6 +4,7 @@ import {Link, Route} from 'react-router-dom';
 import Add from './Add';
 import Listing from './Listing';
 import Edit from './Edit';
+import GivePrivileges from './GivePrivileges';
 
 export default class Index extends Component {
     render() {
@@ -16,6 +17,7 @@ export default class Index extends Component {
                         <Route exact path="/asshai/groups" component={Listing}/>
                         <Route exact path="/asshai/groups/add" component={Add}/>
                         <Route exact path="/asshai/groups/edit/:id" component={Edit}/>
+                        <Route exact path="/asshai/groups/give/:id" component={GivePrivileges}/>
                     </div>
                
             </div>

@@ -10,7 +10,7 @@
         
     </head>
     <body>
-        <div id="app" data={{ auth()->user()}}></div>
+        <div id="app" data=@json(Auth::user()->id)></div>
         <div class="panel-body">
         <form method="POST" action="{{route('logout')}}">
                 {{ csrf_field() }}

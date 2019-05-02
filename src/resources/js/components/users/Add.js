@@ -109,7 +109,7 @@ export default class Add extends Component {
     render() {
         const options = [];
         this.state.groups.forEach(response =>options.push(
-            <option value={response.name}>{response.name}</option>
+            <option key={response.id} value={response.name}>{response.name}</option>
         ));
         return (
             <div>

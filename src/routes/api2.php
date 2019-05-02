@@ -45,8 +45,21 @@ Route::group(['prefix' => 'api'], function () {
         Route::get('groups/edit/{id}','GroupController@edit');
         Route::put('groups/update/{id}','GroupController@update');
         Route::delete('groups/delete/{id}','GroupController@destroy');
- 
+        Route::get('groups/give/{id}','GroupController@getName');
         Route::get('gpjson','GroupController@getGroups');
-           
+
+        //:::::::PRIVILEGIOS CONTROLLER::::://
+        Route::get('privileges','PrivilegeController@index');
+        Route::post('privileges/store','PrivilegeController@store');
+        Route::get('privileges/edit/{id}','PrivilegeController@edit');
+        Route::put('privileges/update/{id}','PrivilegeController@update');
+        Route::delete('privileges/delete/{id}','PrivilegeController@destroy');
+        Route::get('pvjson','PrivilegeController@getPriv');
+        Route::get('priv/{id}','PrivilegeController@groupHasPriveleges');
+        
+
+        //:::::::PRIVILEGIOS GRUPOS CONTROLLER::::://
+        Route::post('privilegegroup/store/{id}','PrivilegeGroupController@update');
+        Route::get('gettest','PrivilegeGroupController@getTest');
     });
 });

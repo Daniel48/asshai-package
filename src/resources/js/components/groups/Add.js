@@ -91,31 +91,6 @@ export default class Add extends Component {
                         <input type="text" className="form-control" id="group_name" 
                                 value={this.state.group_name} onChange={this.onChangeGroupName}/>
                     </div>
-                    {/* <div className="form-group">
-                        <label htmlFor="user_dir">Direccion</label>
-                        <input type="text" className="form-control" id="user_dir" 
-                                value={this.state.user_dir} onChange={this.onChangeUserDir}/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="user_email">Email</label>
-                        <input type="email" className="form-control" id="user_email" 
-                        value={this.state.user_email} onChange={this.onChangeUserEmail} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="user_tel">Telefono</label>
-                        <input type="text" className="form-control" id="user_tel" 
-                        value={this.state.user_tel} onChange={this.onChangeUserTel}/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="user_username">Username</label>
-                        <input type="text" className="form-control" id="user_username" 
-                        value={this.state.user_username} onChange={this.onChangeUserUsName} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="user_password">Password</label>
-                        <input type="password" className="form-control" id="user_password"
-                        value={this.state.user_password} onChange={this.onChangeUserPassword}/>
-                    </div> */}
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </form>
             </div>

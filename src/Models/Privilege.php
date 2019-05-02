@@ -8,6 +8,6 @@ class Privilege extends Model
 {
     protected $guarded = [];
     protected $table = "privileges";
-    protected $fillable = ['name'];
+    protected $fillable = ['name','description'];
     protected $primaryKey = 'id';
 }

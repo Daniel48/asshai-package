@@ -6,22 +6,32 @@ import About from './About';
 import Users from './users/Index';
 import Groups from './groups/Index';
 import Error404 from './users/Error404';
+import Privilege from './privilege/Index';
+import GivePrivileges from './groups/GivePrivileges';
+
 
 
 
 export default class Header extends Component {
     constructor(props){
         super(props);
+        
         this.state={
-            user_id:this.props.id,
-            user_nom:this.props.name
+            /* user_id:this.props.id,
+            user_nom:this.props.name,
+            user_idGroup:props.idGroup, */
+            privilege:props.message.privileges
         };
-        console.log(this.props);console.log(props);
+        console.log(this.state.privilege);
     }
+    /* componentWillReceiveProps(props){
+        this.setState({ loading: true });
+    } */
+
     onSubmit(e){
         e.preventDefault();
         axios.post('http://127.0.0.1:8000/api/logout')
-        .then(res =>{ res.data} );  
+        .then(res =>{ console.log("HOLA MUNDO");} );  
     }
     
     
@@ -40,13 +50,27 @@ export default class Header extends Component {
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/asshai/about">About Us</Link>
-                    </li>
-                    <li className="nav-item">
+                    </li>   
+                    {
+                            this.state.privilege.map(getPriv =>{
+                                return( 
+                                    <li key={getPriv.idPriv} className="nav-item">
+                                    <Link className="nav-link" to={`/asshai/${getPriv.privilegio}`}>{getPriv.privilegio}</Link>
+                                    </li>
+                                );
+                            })
+                            
+                    }
+                    {/* <li className="nav-item"  >
                         <Link className="nav-link" to="/asshai/users">Usuarios</Link>
                     </li>
+                    
                     <li className="nav-item">
                         <Link className="nav-link" to="/asshai/groups">Grupos</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/asshai/privileges">Privilegios</Link>
+                    </li> */}
                     </ul>
                     <form className="form-inline my-2 my-lg-0" onSubmit={this.onSubmit}>
                     {/* <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" /> */} 
@@ -63,6 +87,10 @@ export default class Header extends Component {
                     <Route exact path='/asshai/groups' component={Groups}/>
                     <Route exact path='/asshai/groups/add' component={Groups}/>
                     <Route exact path='/asshai/groups/edit/:id' component={Groups}/>
+                    <Route exact path='/asshai/groups/give/:id' component={GivePrivileges}/>
+                    <Route exact path='/asshai/privileges' component={Privilege}/>
+                    <Route exact path='/asshai/privileges/add' component={Privilege}/>
+                    <Route exact path='/asshai/privileges/edit/:id' component={Privilege}/>
                     <Route exact path="/asshai/*" component={Error404}/>
                     </Switch>
                 </div>

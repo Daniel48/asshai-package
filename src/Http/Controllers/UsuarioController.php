@@ -18,7 +18,7 @@ class UsuarioController extends Controller
     public function index()
     {   
         $result = DB::table('users as u')
-        ->join('groups as g','g.id', '=','u.idGrupo')
+        ->join('groups as g','g.id', '=','u.idGroup')
         ->select('g.name as group','g.id as idGrupo','u.id','u.name','u.telephone','u.address','u.username','u.email')
         ->paginate(5);
         
@@ -95,7 +95,7 @@ class UsuarioController extends Controller
         $user->username = $request->user_username;
         $user->password = bcrypt($request->user_password);
         //$user->idGrupo = $idGroup[0]->id; 
-        $user->idGrupo = $this->getIdGroup($request->user_group);
+        $user->idGroup = $this->getIdGroup($request->user_group);
         $user->save();
     }
 
@@ -151,7 +151,7 @@ class UsuarioController extends Controller
         $user->email = $request->user_email;
         $user->telephone = $request->user_tel;
         $user->username = $request->user_username;
-        $user->idGrupo = $this->getIdGroup($request->user_group);  
+        $user->idGroup = $this->getIdGroup($request->user_group);  
         $user->save();
     }
 

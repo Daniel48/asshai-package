@@ -11,7 +11,7 @@ export default class Listing extends Component {
     constructor(){
         super();
         this.state={
-            groups:[],
+            privileges:[],
             activePage:1,
             itemsCountPerPage:1,
             totalItemsCount:1,
@@ -23,13 +23,14 @@ export default class Listing extends Component {
     
     componentDidMount(){
         isMounted = true;
-        axios.get('http://127.0.0.1:8000/api/groups')
+        axios.get('http://127.0.0.1:8000/api/privileges')
         .then(response =>{
             if(isMounted){
                 console.log("PETICION GET HECHA");
+                console.log(response);
                 this.setState(
                     {
-                        groups:response.data.data,
+                        privileges:response.data.data,
                         itemsCountPerPage:response.data.per_page,
                         totalItemsCount:response.data.total,
                         activePage:response.data.current_page
@@ -44,15 +45,15 @@ export default class Listing extends Component {
 
     onDelete(id){
         console.log(JSON.stringify(id+"AFUERA"));
-         axios.delete('http://127.0.0.1:8000/api/groups/delete/'+id)
+         axios.delete('http://127.0.0.1:8000/api/privileges/delete/'+id)
         .then(response =>{
-            var groups1 = this.state.groups;
+            var privileges1 = this.state.privileges;
             console.log("HOLA DESDE AQUI");
-            for (var i = 0; i < groups1.length; i++) {
-                if (groups1[i].id == id) {
-                    groups1.splice(i,1);
+            for (var i = 0; i < privileges1.length; i++) {
+                if (privileges1[i].id == id) {
+                    privileges1.splice(i,1);
                     if (isMounted) {
-                        this.setState({groups:groups1});
+                        this.setState({privileges:privileges1});
                       }
                 }
             }
@@ -60,18 +61,18 @@ export default class Listing extends Component {
             }).catch(error =>{
                 this.setState({alert_message:"error"});
             }); 
-        console.log(this.state.groups);   
+        console.log(this.state.privileges);   
     }
     handlePageChange(pageNumber) {
         console.log(`active page is ${pageNumber}`);
         this.setState({activePage: pageNumber});
-        axios.get('http://127.0.0.1:8000/api/groups?page='+pageNumber)
+        axios.get('http://127.0.0.1:8000/api/privileges?page='+pageNumber)
         .then(response =>{
             if(isMounted){
                 console.log(response.data.data);
                 this.setState(
                     {
-                        groups:response.data.data,
+                        privileges:response.data.data,
                         itemsCountPerPage:response.data.per_page,
                         totalItemsCount:response.data.total,
                         activePage:response.data.current_page
@@ -85,8 +86,8 @@ export default class Listing extends Component {
         return (
             <div> 
                 <hr/>
-                {this.state.alert_message=="success"?<SuccessAlert message={"El usuario se elimino correctamente"}/>:null}
-                {this.state.alert_message=="error"?<ErrorAlert message={"Ha ocurrido un error mientras se eliminaba el usuario"}/>:null}
+                {this.state.alert_message=="success"?<SuccessAlert message={"El privilegio se elimino correctamente"}/>:null}
+                {this.state.alert_message=="error"?<ErrorAlert message={"Ha ocurrido un error mientras se eliminaba el privilegio"}/>:null}
 
 
                 <table className="table">
@@ -94,23 +95,21 @@ export default class Listing extends Component {
                         <tr>
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
+                        <th scope="col">Descripcion</th>
                         <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            this.state.groups.map(getGroups =>{
+                            this.state.privileges.map(getPrivileges =>{
                                 return(
-                                <tr key={getGroups.id}>
-                                    <th scope="row">{getGroups.id}</th>
-                                    <td>{getGroups.name}</td>
+                                <tr key={getPrivileges.id}>
+                                    <th scope="row">{getPrivileges.id}</th>
+                                    <td>{getPrivileges.name}</td>
+                                    <td>{getPrivileges.description}</td>
                                     <td>
-                                        <Link to={`/asshai/groups/edit/${getGroups.id}`}>  Edit </Link>
-                                        <Link to={{
-                                          pathname: `/asshai/groups/give/${getGroups.id}`,
-                                          state: {name:getGroups.name}   
-                                        }}>   Asignar Privilegios </Link>  
-                                        <a href="#" onClick={this.onDelete.bind(this,getGroups.id)}>   Delete</a>
+                                        <Link to={`/asshai/privileges/edit/${getPrivileges.id}`}>Edit </Link> 
+                                        <a href="#" onClick={this.onDelete.bind(this,getPrivileges.id)}>Delete</a>
                                     </td>
                                 </tr>
                                 )
